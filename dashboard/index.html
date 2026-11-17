@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — pre-token protocols ranked by implied value</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <div class="pulse" aria-hidden="true"></div>
+    <div>
+      <h1>Token Radar</h1>
+      <p class="tag">Which protocol launches next — and what its token could be worth</p>
+    </div>
+  </div>
+  <div class="stats" id="stats" aria-label="Snapshot summary"></div>
+</header>
+
+<section class="model" id="model" aria-label="How the radar scores">
+  <h2>How a row is scored <span class="ver" id="model-ver"></span></h2>
+  <p class="formula">implied = TVL × 0.30 × growth × maturity × chains</p>
+  <ul class="factors">
+    <li><b>Size</b> — TVL is the protocol today, times 0.30.</li>
+    <li><b>Growth</b> — 7-day TVL change, clamped −50%…+100%, weighted ×0.8. A hot week helps; it cannot crown a protocol alone.</li>
+    <li><b>Maturity</b> — 0.5 up to 1.0 over four years tracked with no token. Older with no token means more pent-up launch value.</li>
+    <li><b>Reach</b> — +3% per extra chain, up to four. A launch on more chains reaches more holders.</li>
+  </ul>
+  <p class="caveat">“Records no token” means DefiLlama's record carries no token — never that the protocol has none. Implied value is this radar's own claim, not a prediction of whether or when a token launches.</p>
+</section>
+
+<section class="controls" aria-label="Filter and sort the board">
+  <label>Search <input id="q" type="search" placeholder="protocol name or slug" autocomplete="off"></label>
+  <label>Category <select id="cat"><option value="">All categories</option></select></label>
+  <label>Chain <select id="chain"><option value="">All chains</option></select></label>
+  <label class="check"><input id="watch" type="checkbox"> Watchlist only</label>
+  <label>Sort <select id="sort">
+    <option value="rank">Rank (implied value)</option>
+    <option value="tvl">TVL, high to low</option>
+    <option value="growth">7-day growth, high to low</option>
+    <option value="age">Age, oldest first</option>
+  </select></label>
+  <span class="count" id="count" aria-live="polite"></span>
+</section>
+
+<main>
+  <table class="board" id="board">
+    <thead><tr>
+      <th>#</th><th>Protocol</th><th>Category</th><th>Chains</th>
+      <th class="num">TVL</th><th class="num">7d</th><th class="num">Age</th>
+      <th class="num">Implied value</th><th>Value bar</th>
+    </tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <p class="hint">Click a row for its detail view: the model breakdown and the six farm steps.</p>
+
+  <section class="detail" id="detail" aria-label="Protocol detail" hidden></section>
+
+  <section class="live" aria-label="Protocols whose token already trades">
+    <h2>Already trading — the market's own values</h2>
+    <p>These protocols record a token, so they are not ranked. Their market caps are shown for scale, not scored by the model.</p>
+    <table class="board live-table">
+      <thead><tr><th>Protocol</th><th>Category</th><th class="num">TVL</th><th class="num">Market cap</th><th class="num">7d</th></tr></thead>
+      <tbody id="live-rows"></tbody>
+    </table>
+  </section>
+</main>
+
+<footer>
+  <p id="src"></p>
+  <p>Method: every row is scored by the same formula from the snapshot's own figures — TVL, 7-day change, days tracked, chains. No protocol name is special-cased. Farm plans are generated from each protocol's category, chains, TVL and age.</p>
+</footer>
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
